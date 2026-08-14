@@ -5,7 +5,7 @@ export default function Footer() {
   return (
     <footer className="bg-charcoal text-white pt-20 pb-10">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-16">
           {/* Brand */}
           <div className="col-span-1 md:col-span-1">
             <div className="flex items-center gap-2 mb-6">
@@ -28,18 +28,8 @@ export default function Footer() {
               <li><Link to="/features" className="text-gray-400 hover:text-primary-400 transition-colors">Features</Link></li>
               <li><Link to="/how-it-works" className="text-gray-400 hover:text-primary-400 transition-colors">How it Works</Link></li>
               <li><Link to="/integrations" className="text-gray-400 hover:text-primary-400 transition-colors">Integrations</Link></li>
-              <li><Link to="/pricing" className="text-gray-400 hover:text-primary-400 transition-colors">Pricing</Link></li>
-            </ul>
-          </div>
-
-          {/* Company */}
-          <div>
-            <h4 className="font-semibold text-lg mb-6 text-white">Company</h4>
-            <ul className="space-y-4">
-              <li><Link to="/about" className="text-gray-400 hover:text-primary-400 transition-colors">About Us</Link></li>
-              <li><Link to="/blog" className="text-gray-400 hover:text-primary-400 transition-colors">Blog</Link></li>
-              <li><Link to="/careers" className="text-gray-400 hover:text-primary-400 transition-colors">Careers</Link></li>
-              <li><Link to="/contact" className="text-gray-400 hover:text-primary-400 transition-colors">Contact</Link></li>
+              <li><Link to="/demo" className="text-gray-400 hover:text-primary-400 transition-colors">Live Demo</Link></li>
+              <li><Link to="/contact" className="text-gray-400 hover:text-primary-400 transition-colors">Contact Us</Link></li>
             </ul>
           </div>
 
