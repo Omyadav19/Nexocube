@@ -17,10 +17,10 @@ logger = logging.getLogger(__name__)
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     from app.database import connect_to_db, close_db_connection
-    await connect_to_db()
+    connect_to_db()
     await _ensure_admin_user()
     yield
-    await close_db_connection()
+    close_db_connection()
 
 
 async def _ensure_admin_user():

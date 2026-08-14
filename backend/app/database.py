@@ -7,13 +7,13 @@ logger = logging.getLogger(__name__)
 client = None
 db = None
 
-async def connect_to_db():
+def connect_to_db():
     global client, db
     import certifi
 
     mongodb_url = getattr(settings, "MONGODB_URL", "mongodb://localhost:27017/nexocube")
     
-    # Use certifi for SSL connections on Windows
+    # Use certifi for SSL connections on Windows/Serverless
     if "mongodb+srv" in mongodb_url:
         client = AsyncIOMotorClient(mongodb_url, tlsCAFile=certifi.where())
     else:
@@ -27,7 +27,7 @@ async def connect_to_db():
     db = client[db_name]
     logger.info(f"Connected to MongoDB database: {db_name}")
 
-async def close_db_connection():
+def close_db_connection():
     global client
     if client:
         client.close()
@@ -35,6 +35,7 @@ async def close_db_connection():
 
 def get_db():
     """FastAPI dependency for MongoDB database instance."""
+    global db
     if db is None:
-        raise Exception("Database not initialized. Call connect_to_db() first.")
+        connect_to_db()
     return db
