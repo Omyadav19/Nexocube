@@ -3,10 +3,7 @@
   "builds": [
     {
       "src": "backend/index.py",
-      "use": "@vercel/python",
-      "config": {
-        "maxLambdaSize": "50mb"
-      }
+      "use": "@vercel/python"
     },
     {
       "src": "frontend/package.json",
@@ -16,30 +13,22 @@
       }
     }
   ],
-  "routes": [
+  "rewrites": [
     {
-      "src": "/api/(.*)",
-      "dest": "backend/index.py"
+      "source": "/api/:match*",
+      "destination": "backend/index.py"
     },
     {
-      "src": "/assets/(.*)",
-      "dest": "/assets/$1"
+      "source": "/docs",
+      "destination": "backend/index.py"
     },
     {
-      "src": "/favicon.svg",
-      "dest": "/favicon.svg"
+      "source": "/openapi.json",
+      "destination": "backend/index.py"
     },
     {
-      "src": "/icons.svg",
-      "dest": "/icons.svg"
-    },
-    {
-      "src": "/hero-isometric.png",
-      "dest": "/hero-isometric.png"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/index.html"
+      "source": "/(.*)",
+      "destination": "/frontend/$1"
     }
   ]
 }
