@@ -50,15 +50,14 @@ interface FormData {
 export default function DemoPage() {
   const navigate = useNavigate();
   const [form, setForm] = useState<FormData>({
-    name: 'Rahul Sharma',
-    email: 'rahul@fashionhub.in',
-    phone: '+91 98765 43210',
-    company: 'FashionHub',
-    service: 'E-commerce Development',
-    description:
-      'We are launching an online clothing store and need a modern e-commerce website with customer registration, product management, shopping cart, online payments and order tracking. We would like to launch within two months.',
-    budget: '₹1,00,000–₹2,50,000',
-    timeline: '1-2 months',
+    name: '',
+    email: '',
+    phone: '',
+    company: '',
+    service: '',
+    description: '',
+    budget: '',
+    timeline: '',
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -102,10 +101,29 @@ export default function DemoPage() {
             <h1 className="font-display text-4xl font-extrabold text-charcoal mb-4">
               Submit a Client Inquiry
             </h1>
-            <p className="text-lg text-muted">
-              Fill in the form below. Our AI will analyze, score, and generate a proposal in real time.
-              Pre-filled with the FashionHub demo data.
+            <p className="text-lg text-muted mb-6">
+              Fill in your inquiry below or click the demo button to populate sample client details. Our AI will analyze, score, and generate a proposal in real time.
             </p>
+            <button
+              type="button"
+              onClick={() => {
+                setForm({
+                  name: 'Rahul Sharma',
+                  email: 'rahul@fashionhub.in',
+                  phone: '+91 98765 43210',
+                  company: 'FashionHub',
+                  service: 'E-commerce Development',
+                  description:
+                    'We are launching an online clothing store and need a modern e-commerce website with customer registration, product management, shopping cart, online payments and order tracking. We would like to launch within two months.',
+                  budget: '₹1,00,000–₹2,50,000',
+                  timeline: '1-2 months',
+                });
+              }}
+              className="inline-flex items-center gap-2 px-4 py-2 bg-primary-100 hover:bg-primary-200 text-primary-800 text-sm font-semibold rounded-xl transition-colors border border-primary-200"
+            >
+              <Zap size={15} />
+              Fill with Demo Details (FashionHub)
+            </button>
           </div>
         </div>
 
@@ -121,26 +139,26 @@ export default function DemoPage() {
             <div className="grid md:grid-cols-2 gap-5">
               <div>
                 <label className="label">Full Name *</label>
-                <input name="name" value={form.name} onChange={handleChange} className="input" placeholder="Rahul Sharma" required />
+                <input name="name" value={form.name} onChange={handleChange} className="input" placeholder="e.g. Rahul Sharma" required />
               </div>
               <div>
                 <label className="label">Email Address *</label>
-                <input name="email" type="email" value={form.email} onChange={handleChange} className="input" placeholder="rahul@company.com" required />
+                <input name="email" type="email" value={form.email} onChange={handleChange} className="input" placeholder="e.g. rahul@fashionhub.in" required />
               </div>
               <div>
                 <label className="label">Phone Number</label>
-                <input name="phone" value={form.phone} onChange={handleChange} className="input" placeholder="+91 98765 43210" />
+                <input name="phone" value={form.phone} onChange={handleChange} className="input" placeholder="e.g. +91 98765 43210" />
               </div>
               <div>
                 <label className="label">Company Name</label>
-                <input name="company" value={form.company} onChange={handleChange} className="input" placeholder="FashionHub" />
+                <input name="company" value={form.company} onChange={handleChange} className="input" placeholder="e.g. FashionHub" />
               </div>
             </div>
 
             <div>
               <label className="label">Service Required *</label>
               <select name="service" value={form.service} onChange={handleChange} className="input" required>
-                <option value="">Select a service</option>
+                <option value="">Select a service (e.g. E-commerce Development)</option>
                 {SERVICES.map((s) => <option key={s} value={s}>{s}</option>)}
               </select>
             </div>
@@ -152,7 +170,7 @@ export default function DemoPage() {
                 value={form.description}
                 onChange={handleChange}
                 className="input min-h-[140px] resize-none"
-                placeholder="Describe your project in detail — features needed, current situation, goals..."
+                placeholder="Describe your project in detail (e.g. We are launching an online clothing store and need product catalog, shopping cart, payments, and order tracking...)"
                 required
                 minLength={10}
               />
