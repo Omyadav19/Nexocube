@@ -94,6 +94,7 @@ app.include_router(automation.router)
 
 
 @app.get("/", tags=["Health"])
+@app.get("/api", tags=["Health"])
 async def root():
     return {
         "status": "healthy",
@@ -104,6 +105,7 @@ async def root():
 
 
 @app.get("/health", tags=["Health"])
+@app.get("/api/health", tags=["Health"])
 async def health_check():
     return {"status": "ok", "service": "ProposalAI"}
 
