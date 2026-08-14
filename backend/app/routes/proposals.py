@@ -8,6 +8,7 @@ from app.services.pdf_service import generate_proposal_pdf
 from app.services import lead_service
 from app.utils.auth import get_current_user
 from app.database import get_db
+from app.config import settings
 from app.schemas.proposal import ProposalUpdate
 import logging, os
 

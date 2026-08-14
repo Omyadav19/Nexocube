@@ -5,6 +5,7 @@ from app.services import lead_service, ai_service
 from app.services.automation_service import log_automation_event
 from app.utils.auth import get_current_user
 from app.database import get_db
+from app.config import settings
 from typing import Optional
 import logging
 

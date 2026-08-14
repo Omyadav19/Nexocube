@@ -1,6 +1,7 @@
 import uuid
 from datetime import datetime, timezone
 from motor.motor_asyncio import AsyncIOMotorDatabase
+from app.config import settings
 import logging
 
 logger = logging.getLogger(__name__)
