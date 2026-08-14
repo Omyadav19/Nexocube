@@ -135,6 +135,10 @@ export default function LoginPage() {
               )}
             </button>
           </form>
+
+          <p className="text-sm text-center text-muted mt-6">
+            Demo Credentials: <strong>admin@proposalai.com</strong> / <strong>admin123</strong>
+          </p>
         </div>
       </div>
     </div>
