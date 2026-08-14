@@ -1,0 +1,50 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+*.whl
+*.venv
+venv/
+env/
+.env
+.env.local
+.env.production
+
+# Generated PDFs
+backend/generated_pdfs/
+
+# Node
+node_modules/
+dist/
+.cache/
+.parcel-cache/
+
+# Frontend .env
+frontend/.env
+frontend/.env.local
+frontend/.env.production
+
+# IDE
+.idea/
+.vscode/
+*.suo
+*.user
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# MongoDB
+*.mongodb/
+
+# Build outputs
+frontend/dist/

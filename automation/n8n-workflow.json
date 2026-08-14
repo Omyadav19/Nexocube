@@ -1,0 +1,205 @@
+{
+  "name": "ProposalAI Lead Automation",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "proposalai-lead",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "webhook-node",
+      "name": "Webhook - New Lead",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{$env.PROPOSALAI_API_URL}}/api/webhooks/lead",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            { "name": "name", "value": "={{$json.body.name}}" },
+            { "name": "email", "value": "={{$json.body.email}}" },
+            { "name": "phone", "value": "={{$json.body.phone}}" },
+            { "name": "company", "value": "={{$json.body.company}}" },
+            { "name": "service", "value": "={{$json.body.service}}" },
+            { "name": "description", "value": "={{$json.body.description}}" },
+            { "name": "budget", "value": "={{$json.body.budget}}" },
+            { "name": "timeline", "value": "={{$json.body.timeline}}" }
+          ]
+        },
+        "options": {}
+      },
+      "id": "create-lead-node",
+      "name": "Create Lead in API",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [500, 300]
+    },
+    {
+      "parameters": {
+        "amount": 5,
+        "unit": "seconds"
+      },
+      "id": "wait-node",
+      "name": "Wait - AI Processing",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1,
+      "position": [750, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{$env.PROPOSALAI_API_URL}}/api/leads/={{$('Create Lead in API').item.json.lead_id}}/analyze",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {}
+      },
+      "id": "analyze-lead-node",
+      "name": "AI Analyze Lead",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [1000, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{$env.PROPOSALAI_API_URL}}/api/leads/={{$('Create Lead in API').item.json.lead_id}}/requirements",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {}
+      },
+      "id": "requirements-node",
+      "name": "Extract Requirements",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [1250, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "number": [
+            {
+              "value1": "={{$('AI Analyze Lead').item.json.analysis.score}}",
+              "operation": "larger",
+              "value2": 50
+            }
+          ]
+        }
+      },
+      "id": "qualify-check-node",
+      "name": "Check: Score > 50?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [1500, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{$env.PROPOSALAI_API_URL}}/api/leads/={{$('Create Lead in API').item.json.lead_id}}/proposal",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {}
+      },
+      "id": "generate-proposal-node",
+      "name": "Generate Proposal",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [1750, 200]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{$env.PROPOSALAI_API_URL}}/api/proposals/={{$('Generate Proposal').item.json.proposal.id}}/send",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {}
+      },
+      "id": "send-email-node",
+      "name": "Send Proposal Email",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [2000, 200]
+    },
+    {
+      "parameters": {
+        "method": "PATCH",
+        "url": "={{$env.PROPOSALAI_API_URL}}/api/leads/={{$('Create Lead in API').item.json.lead_id}}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            { "name": "status", "value": "contacted" }
+          ]
+        },
+        "options": {}
+      },
+      "id": "update-crm-cold-node",
+      "name": "Update CRM - Cold Lead",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [1750, 450]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\"success\": true, \"lead_id\": \"{{$('Create Lead in API').item.json.lead_id}}\", \"message\": \"Lead processed by n8n automation\"}"
+      },
+      "id": "respond-node",
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [500, 550]
+    }
+  ],
+  "connections": {
+    "Webhook - New Lead": {
+      "main": [
+        [{ "node": "Create Lead in API", "type": "main", "index": 0 },
+         { "node": "Respond to Webhook", "type": "main", "index": 0 }]
+      ]
+    },
+    "Create Lead in API": {
+      "main": [
+        [{ "node": "Wait - AI Processing", "type": "main", "index": 0 }]
+      ]
+    },
+    "Wait - AI Processing": {
+      "main": [
+        [{ "node": "AI Analyze Lead", "type": "main", "index": 0 }]
+      ]
+    },
+    "AI Analyze Lead": {
+      "main": [
+        [{ "node": "Extract Requirements", "type": "main", "index": 0 }]
+      ]
+    },
+    "Extract Requirements": {
+      "main": [
+        [{ "node": "Check: Score > 50?", "type": "main", "index": 0 }]
+      ]
+    },
+    "Check: Score > 50?": {
+      "main": [
+        [{ "node": "Generate Proposal", "type": "main", "index": 0 }],
+        [{ "node": "Update CRM - Cold Lead", "type": "main", "index": 0 }]
+      ]
+    },
+    "Generate Proposal": {
+      "main": [
+        [{ "node": "Send Proposal Email", "type": "main", "index": 0 }]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "meta": {
+    "templateId": "proposalai-lead-automation",
+    "description": "Automated lead processing: Webhook → FastAPI → MongoDB → OpenAI Analysis → Requirements → Proposal → PDF → Email"
+  }
+}
