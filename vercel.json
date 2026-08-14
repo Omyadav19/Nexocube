@@ -23,23 +23,23 @@
     },
     {
       "src": "/assets/(.*)",
-      "dest": "frontend/assets/$1"
+      "dest": "/assets/$1"
     },
     {
       "src": "/favicon.svg",
-      "dest": "frontend/favicon.svg"
+      "dest": "/favicon.svg"
     },
     {
       "src": "/icons.svg",
-      "dest": "frontend/icons.svg"
+      "dest": "/icons.svg"
     },
     {
       "src": "/hero-isometric.png",
-      "dest": "frontend/hero-isometric.png"
+      "dest": "/hero-isometric.png"
     },
     {
       "src": "/(.*)",
-      "dest": "frontend/index.html"
+      "dest": "/index.html"
     }
   ]
 }
