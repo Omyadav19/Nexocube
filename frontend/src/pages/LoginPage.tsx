@@ -135,34 +135,6 @@ export default function LoginPage() {
               )}
             </button>
           </form>
-
-          <div className="mt-6 p-4 bg-primary-50 rounded-xl border border-primary-100">
-            <p className="text-xs font-semibold text-primary-700 mb-3">Quick Access</p>
-            <button
-              type="button"
-              id="admin-login-btn"
-              onClick={async () => {
-                setEmail('admin@proposalai.com');
-                setPassword('admin123');
-                setError('');
-                setLoading(true);
-                try {
-                  await login('admin@proposalai.com', 'admin123');
-                  navigate('/dashboard');
-                } catch (err: any) {
-                  setError(err.response?.data?.detail || 'Login failed.');
-                } finally {
-                  setLoading(false);
-                }
-              }}
-              disabled={loading}
-              className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-primary-600 text-white text-sm font-semibold rounded-xl hover:bg-primary-700 transition-colors disabled:opacity-50"
-            >
-              <Zap size={14} />
-              Admin Login
-            </button>
-            <p className="text-xs text-primary-500 text-center mt-2">admin@proposalai.com · admin123</p>
-          </div>
         </div>
       </div>
     </div>
