@@ -136,9 +136,33 @@ export default function LoginPage() {
             </button>
           </form>
 
-          <p className="text-sm text-center text-muted mt-6">
-            Demo Credentials: <strong>admin@proposalai.com</strong> / <strong>admin123</strong>
-          </p>
+          <div className="mt-8 pt-6 border-t border-slate-100">
+            <div 
+              onClick={() => {
+                setEmail('admin@proposalai.com');
+                setPassword('admin123');
+              }}
+              className="group cursor-pointer rounded-xl bg-slate-50 hover:bg-primary-50/60 border border-slate-200/80 hover:border-primary-200 p-3.5 transition-all duration-200 flex items-center justify-between shadow-xs"
+              title="Click to autofill demo credentials"
+            >
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 rounded-lg bg-primary-100/80 text-primary-700 flex items-center justify-center font-bold text-xs">
+                  <Zap size={14} className="text-primary-600" />
+                </div>
+                <div className="text-left">
+                  <div className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Demo Admin Account</div>
+                  <div className="text-xs font-medium text-slate-700 mt-0.5">
+                    <span className="font-mono text-slate-900 bg-slate-200/60 px-1.5 py-0.5 rounded">admin@proposalai.com</span>
+                    <span className="mx-1.5 text-slate-400">/</span>
+                    <span className="font-mono text-slate-900 bg-slate-200/60 px-1.5 py-0.5 rounded">admin123</span>
+                  </div>
+                </div>
+              </div>
+              <span className="text-[11px] font-medium text-primary-600 group-hover:text-primary-700 bg-white group-hover:bg-primary-100 border border-slate-200 group-hover:border-primary-300 px-2.5 py-1 rounded-md transition-all shadow-2xs">
+                Auto-fill
+              </span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
