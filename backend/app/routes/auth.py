@@ -1,7 +1,6 @@
 from fastapi import APIRouter, HTTPException, Depends
 from fastapi.security import OAuth2PasswordRequestForm
 from motor.motor_asyncio import AsyncIOMotorDatabase
-from sqlalchemy import select
 from app.utils.auth import verify_password, create_access_token, get_current_user
 from app.database import get_db
 import logging
