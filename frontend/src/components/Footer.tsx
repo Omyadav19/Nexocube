@@ -49,10 +49,10 @@ export default function Footer() {
             © {new Date().getFullYear()} Nexocube. All rights reserved.
           </p>
           <div className="flex items-center gap-4 text-sm text-gray-400">
-            <span className="flex items-center gap-1.5">
+            <a href="mailto:omryadav5@gmail.com" className="flex items-center gap-1.5 hover:text-primary-400 transition-colors">
               <Mail size={14} />
-              hello@nexocube.com
-            </span>
+              omryadav5@gmail.com
+            </a>
           </div>
         </div>
       </div>
