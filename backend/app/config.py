@@ -1,3 +1,4 @@
+import os
 from pydantic_settings import BaseSettings
 from typing import Optional
 
@@ -23,6 +24,7 @@ class Settings(BaseSettings):
     # App
     FRONTEND_URL: str = "http://localhost:5173"
     N8N_WEBHOOK_URL: Optional[str] = None
+    PDF_DIR: str = "/tmp/generated_pdfs" if os.environ.get("VERCEL") else "generated_pdfs"
 
     # Admin defaults
     ADMIN_EMAIL: str = "admin@proposalai.com"

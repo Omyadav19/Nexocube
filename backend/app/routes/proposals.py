@@ -50,12 +50,17 @@ async def download_pdf(
         raise HTTPException(status_code=404, detail="Proposal not found")
 
     pdf_path = proposal.get("pdf_path")
-    if pdf_path and os.path.exists(os.path.join("generated_pdfs", pdf_path)):
-        return FileResponse(
-            os.path.join("generated_pdfs", pdf_path),
-            media_type="application/pdf",
-            filename=pdf_path,
-        )
+    pdf_dir = getattr(settings, "PDF_DIR", "/tmp/generated_pdfs" if os.environ.get("VERCEL") else "generated_pdfs")
+    
+    if pdf_path:
+        for possible_dir in [pdf_dir, "/tmp", "generated_pdfs"]:
+            full_path = os.path.join(possible_dir, pdf_path)
+            if os.path.exists(full_path):
+                return FileResponse(
+                    full_path,
+                    media_type="application/pdf",
+                    filename=pdf_path,
+                )
 
     # Regenerate PDF on the fly
     lead = await lead_service.get_lead_by_id(db, proposal["lead_id"])

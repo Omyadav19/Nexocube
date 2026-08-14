@@ -232,11 +232,19 @@ async def generate_proposal_for_lead(
         proposal_dict = proposal_result.model_dump()
 
         pdf_bytes = generate_proposal_pdf(proposal_dict, lead)
-        pdf_dir = "generated_pdfs"
-        os.makedirs(pdf_dir, exist_ok=True)
+        pdf_dir = getattr(settings, "PDF_DIR", "/tmp/generated_pdfs" if os.environ.get("VERCEL") else "generated_pdfs")
+        try:
+            os.makedirs(pdf_dir, exist_ok=True)
+        except Exception:
+            pdf_dir = "/tmp"
+            os.makedirs(pdf_dir, exist_ok=True)
+
         pdf_filename = f"proposal_{lead_id}.pdf"
-        with open(os.path.join(pdf_dir, pdf_filename), "wb") as f:
-            f.write(pdf_bytes)
+        try:
+            with open(os.path.join(pdf_dir, pdf_filename), "wb") as f:
+                f.write(pdf_bytes)
+        except Exception as write_err:
+            logger.warning(f"Could not write PDF to filesystem: {write_err}")
 
         saved_proposal = await proposal_service.create_proposal(db, lead_id, {
             "title": proposal_dict.get("title"),
