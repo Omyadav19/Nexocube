@@ -55,7 +55,7 @@ export default function Navbar() {
               to="/login"
               className="px-4 py-2 text-sm font-semibold text-charcoal hover:text-primary-600 transition-colors"
             >
-              Login
+              Admin Login
             </Link>
             <Link to="/demo" className="btn-primary text-sm py-2 px-6">
               Get Started
@@ -87,7 +87,7 @@ export default function Navbar() {
           ))}
           <div className="pt-2 flex flex-col gap-2">
             <Link to="/login" className="btn-secondary text-center text-sm">
-              Login
+              Admin Login
             </Link>
             <Link to="/demo" className="btn-primary text-center text-sm">
               Try Demo
